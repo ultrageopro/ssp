@@ -58,7 +58,7 @@ After setting up the application in `config.toml`:
    2. Log in to your account using `fly auth login` and launch the application (from the main directory) with `fly launch`.
    3. After a successful launch, the webhook will be listening at the address `https://example.fly.io/webhook`. The domain will be provided in the console output after a successful launch.
 
-2. Create a webhook in your website's repository:
+2. [Create a webhook](https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks) in your website's repository:
    1. Paste the address obtained in step 1.3. **Be sure** to enter the secret that was specified in `config.toml`.
    2. Allow push notifications to be sent; all other notifications will be ignored.
    3. Choose the data type `application/json`.
