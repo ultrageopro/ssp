@@ -12,7 +12,7 @@ class GitHubWebhookHandler:
     def __init__(
         self,
         secret_token: str,
-        callback: Callable[[str], Coroutine[Any, Any, None]],
+        callback: Callable[[str, str], Coroutine[Any, Any, None]],
     ) -> None:
         """Initialize the GitHubWebhookHandler.
 
@@ -77,9 +77,34 @@ class GitHubWebhookHandler:
                 commit_message,
             )
 
+            # Check if the commit message matches the expected format
+            commit_obj = Utils.parse_commit(commit_message)
+            if commit_obj is None:
+                self.__logger.info("Commit message does not match the expected format.")
+                return (
+                    jsonify(
+                        {
+                            "status": "ignored",
+                            "reason": "Commit message does not match the expected format.",  # noqa: E501
+                        },
+                    ),
+                    200,
+                )
+
+            # Extract post_name and post_title from the commit message
+            post_name, post_title = commit_obj
+
             # Execute the callback with commit messages
-            await self.__callback(commit_message)
-            return jsonify({"status": "success", "message": commit_message}), 200
+            await self.__callback(post_name, post_title)
+            return (
+                jsonify(
+                    {
+                        "status": "success",
+                        "reason": "This push event was received and forwarded for further processing.",  # noqa: E501
+                    },
+                ),
+                200,
+            )
 
         self.__logger.info("Event ignored: %s", event)
         return (

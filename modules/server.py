@@ -2,10 +2,7 @@
 
 from __future__ import annotations
 
-import logging
 from typing import TYPE_CHECKING
-
-from utils import Utils
 
 from ._bot import TelegramBot
 from ._webhook import GitHubWebhookHandler
@@ -29,22 +26,14 @@ class Server:
         self.__bot: TelegramBot
         self.__webhook_data = webhook_data
 
-    async def __create_post(self, commit_message: str) -> None:
-        """Create a post based on the provided commit message.
+    async def __create_post(self, post_name: str, post_title: str) -> None:
+        """Create a post and send it to the configured Telegram channels.
 
         Args:
-            commit_message: The commit message to parse.
+            post_name (str): Name of the post to send.
+            post_title (str): Title of the post to send.
 
         """
-        commit_data = Utils.parse_commit(commit_message)
-        if commit_data is None:
-            logging.info(
-                "Commit %s message does not match the expected format.",
-                commit_message,
-            )
-            return
-
-        post_name, post_title = commit_data
         await self.__bot.send_post(post_name=post_name, post_title=post_title)
 
     def setup_bot(
