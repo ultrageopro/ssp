@@ -25,7 +25,12 @@ telegram_bot_token = "" # str[required]: Telegram bot token from @BotFather
 
 [webhook]
 secret_token = "" # str[required]: Secret for webhook
-commit_template = "post: <post_name> <post_title>" # str[optional]: Commit template
+
+# str[required]: Commit template.
+# post_name must be only one word without spaces (use - instead of spaces), cus it will be used in a link to the post
+# post_title can contain spaces
+# Example: "post: <hello-world> <Hello World!>"
+commit_template = "post: <post_name> <post_title>"
 
 [telegram_channel]
 
