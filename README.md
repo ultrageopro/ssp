@@ -37,7 +37,7 @@ commit_template = "post: <post_name> <post_title>"
 # list[int][optional]: Telegram channel ids, where to send posts
 channel_ids = []
 
-# str[optional]:
+# str[optional]: Post template
 # You can leave it without any changes
 # {blog_owner_name} {blog_url} {post_name} {post_title} will be replaced with actual values
 post_template = """
