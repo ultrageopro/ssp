@@ -49,7 +49,7 @@ This post was automatically created with [SSP](https://github.com/ultrageopro/ss
 After setting up the application in `config.toml`:
 
 1. Deploy the application somewhere. For example, I would recommend using [fly.io](https://fly.io)
-   1. Create an account and install `flyclt`.
+   1. Create an account and install `flyctl`.
    2. Log in to your account using `fly auth login` and launch the application (from the main directory) with `fly launch`.
    3. After a successful launch, the webhook will be listening at the address `https://example.fly.io/webhook`. The domain will be provided in the console output after a successful launch.
 
