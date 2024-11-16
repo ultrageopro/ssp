@@ -34,7 +34,7 @@ channel_ids = []
 
 # str[optional]:
 # You can leave it without any changes
-# {blog_owner_name} {blog_url} {post_name} {post_title} and other vars will be replaced with actual values
+# {blog_owner_name} {blog_url} {post_name} {post_title} will be replaced with actual values
 post_template = """
 New post from [{blog_owner_name}'s blog]({blog_url})!
 
