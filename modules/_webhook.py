@@ -44,6 +44,7 @@ class GitHubWebhookHandler:
                 reason for ignoring the event.
 
         """  # noqa: E501
+        # Verify the request signature
         signature = request.headers.get("X-Hub-Signature-256")
         if signature is None:
             self.__logger.error("Missing X-Hub-Signature-256 header")
@@ -60,6 +61,7 @@ class GitHubWebhookHandler:
 
         self.__logger.info("Signature verified!")
 
+        # Check if the event is a 'push' event
         event = request.headers.get("X-GitHub-Event")
         if event == "push":
             payload: dict[str, Any] | None = request.json
@@ -67,6 +69,7 @@ class GitHubWebhookHandler:
                 self.__logger.error("Invalid payload: Payload is None")
                 abort(400, "Invalid payload")
 
+            # Extract the commit message
             commit_message = payload.get("head_commit", {}).get("message")
             if commit_message is None:
                 self.__logger.error("Invalid payload: Commit message is None")
@@ -85,7 +88,7 @@ class GitHubWebhookHandler:
                     jsonify(
                         {
                             "status": "ignored",
-                            "reason": "Commit message does not match the expected format.",  # noqa: E501
+                            "reason": "Commit message does not match the expected format. Ignoring event.",  # noqa: E501
                         },
                     ),
                     200,
@@ -93,6 +96,11 @@ class GitHubWebhookHandler:
 
             # Extract post_name and post_title from the commit message
             post_name, post_title = commit_obj
+            self.__logger.info(
+                "Extracted post_name: %s, post_title: %s\nExecuting callback...",
+                post_name,
+                post_title,
+            )
 
             # Execute the callback with commit messages
             await self.__callback(post_name, post_title)
