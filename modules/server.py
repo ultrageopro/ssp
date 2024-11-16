@@ -26,16 +26,6 @@ class Server:
         self.__bot: TelegramBot
         self.__webhook_data = webhook_data
 
-    async def __create_post(self, post_name: str, post_title: str) -> None:
-        """Create a post and send it to the configured Telegram channels.
-
-        Args:
-            post_name (str): Name of the post to send.
-            post_title (str): Title of the post to send.
-
-        """
-        await self.__bot.send_post(post_name=post_name, post_title=post_title)
-
     def setup_bot(
         self,
         blog_data: BlogData,
@@ -67,6 +57,7 @@ class Server:
 
         """
         return GitHubWebhookHandler(
-            callback=self.__create_post,
+            callback=self.__bot.send_post,
             secret_token=self.__webhook_data.secret_token,
+            commit_template=self.__webhook_data.commit_template,
         )
