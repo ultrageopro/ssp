@@ -32,7 +32,6 @@ class GitHubWebhookHandler:
             view_func=self.__handle_webhook,
             methods=["POST"],
         )
-        logging.basicConfig(level=logging.INFO)
         self.__logger = logging.getLogger(__name__)
 
     async def __handle_webhook(self) -> tuple[Response, int]:
